@@ -1,17 +1,30 @@
 import styled from "styled-components"
-import {useState , useEffect} from 'react'
+import {useState , useEffect} from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-export default function SeatsPage() {
+export default function SeatsPage({seat, setSeat}) {
 
-    const [assentos, setAssentos] = useState([]);
-    console.log(assentos)
+    const params = useParams();
+    const idSession = params.idSessao;
+    console.log(params)
+    const [seats, setSeats] = useState([]);
+    console.log(seats)
+
+    function reserve(assento){
+        const novoSeat = assento.target.id;
+        const reserveSeat = seat.push(novoSeat);
+        console.log("seat", seat);
+        console.log("reserveSeat", reserveSeat);
+        console.log(assento.target.id);
+       // setSeat(reserveSeat);
+
+    }
 
     useEffect(()=>{
-        //const promise = axios.get("https://mock-api.driven.com.br/api/v8/cineflex/showtimes/ID_DA_SESSAO/seats");
-        const promise = axios.get("https://mock-api.driven.com.br/api/v8/cineflex/showtimes/1/seats");
-        promise.then((resposta)=>{setAssentos(resposta.data.seats)})
-        promise.catch((resposta)=>{console.log(resposta.status)})
+        const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSession}/seats`);
+        promise.then((resposta)=>{setSeats(resposta.data.seats)})
+        promise.catch((resposta)=>{console.log(resposta.response.data)})
     },[])
 
 
@@ -20,24 +33,22 @@ export default function SeatsPage() {
             Selecione o(s) assento(s)
 
             <SeatsContainer>
-                <SeatItem>01</SeatItem>
-                <SeatItem>02</SeatItem>
-                <SeatItem>03</SeatItem>
-                <SeatItem>04</SeatItem>
-                <SeatItem>05</SeatItem>
+                {seats.map((s)=>
+                    <SeatItem value={s.isAvailable} id={s.name} onClick={(e)=>reserve(e)}>{s.name}</SeatItem>            
+                )}
             </SeatsContainer>
 
             <CaptionContainer>
                 <CaptionItem>
-                    <CaptionCircle />
+                    <CaptionCircle color={"verde"}/>
                     Selecionado
                 </CaptionItem>
                 <CaptionItem>
-                    <CaptionCircle />
+                    <CaptionCircle color={"cinza"}/>
                     Disponível
                 </CaptionItem>
                 <CaptionItem>
-                    <CaptionCircle />
+                    <CaptionCircle color={"amarelo"}/>
                     Indisponível
                 </CaptionItem>
             </CaptionContainer>
@@ -109,8 +120,8 @@ const CaptionContainer = styled.div`
     margin: 20px;
 `
 const CaptionCircle = styled.div`
-    border: 1px solid blue;         // Essa cor deve mudar
-    background-color: lightblue;    // Essa cor deve mudar
+    border: 1px solid ${props => props.color === "verde" ? "0E7D71" : (props.color === "cinza" ? "C3CFD9" : "FBE192")};
+    background-color: ${props => props.color === "verde" ? "1AAE9E" : (props.color === "cinza" ? "7B8B99" : "F7C52B")};  
     height: 25px;
     width: 25px;
     border-radius: 25px;

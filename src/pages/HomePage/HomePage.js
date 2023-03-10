@@ -1,13 +1,12 @@
 import styled from "styled-components"
 import {useState , useEffect} from 'react'
+import { Link, useParams } from "react-router-dom"
 import axios from 'axios';
 
-export default function HomePage({setIdFilme}) {
-
-    const [movie, setMovie] = useState([]);
-    
+export default function HomePage({movie, setMovie, setIdFilme}) {
+ 
     function chooseMovie(movie){
-        setIdFilme(movie.target.alt);
+        setIdFilme(movie.target.id);
     }
 
 
@@ -29,9 +28,11 @@ export default function HomePage({setIdFilme}) {
 
             <ListContainer>
                 {movie.map((m)=>
-                <MovieContainer>
-                    <img onClick={(e)=>chooseMovie(e)} key={m.title} src={m.posterURL} alt={m.id}/>
-                </MovieContainer>
+                    <Link to={`/sessoes/${m.id}`}>
+                        <MovieContainer>
+                            <img onClick={(e)=>chooseMovie(e)} alt={m.title} src={m.posterURL} id={m.id}/>
+                        </MovieContainer>
+                    </Link>
                 )}
                 
             </ListContainer>

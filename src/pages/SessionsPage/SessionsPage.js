@@ -1,64 +1,48 @@
 import styled from "styled-components"
 import {useState , useEffect} from 'react'
 import axios from 'axios';
+import SessionHour from './SessionHour'
+import { useParams } from 'react-router-dom';
 
-export default function SessionsPage({idFilme}) {
-    console.log(idFilme)
-    const [sessoes, setSessoes] = useState([]);
-    const [overview, setOverview] = useState([]);
-    const [poster, setPoster] = useState([]);
-    const [title, setTitle] = useState([]);
-    const [idSession, setIdSession] = useState([]);
-    const [hour, setHour] = useState([]);
-    //console.log("sessoes", sessoes)
-    console.log("overview", overview)
-    console.log("poster", poster)
-    console.log("title", title)
-    console.log("sessoes", sessoes)
-    console.log("hora", hour)
-    console.log("idSession", idSession)
-    //console.log("sessoes", sessoes[0].showtimes)
+export default function SessionsPage({setIdSession}) {
+    
+    const params = useParams();
+    const idFilm = params.idFilme;
 
-    function chosenHour(event){
-        setHour(event.target.value);
-        setIdSession(event.target);
-    }
+    const [sessions, setSessions] = useState([]);
+    const [movieData, setMovieData] = useState([]);
+
+    //console.log("sessions", sessions)
 
     useEffect(()=>{
-        //const promisse = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${idFilme}/showtimes`)
-        const promisse = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/1/showtimes`)
+        const promisse = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${idFilm}/showtimes`)
         
         promisse.then((resposta)=>{
-            setSessoes(resposta.data.days)
-            setOverview(resposta.data.overview)
-            setPoster(resposta.data.posterURL)
-            setTitle(resposta.data.title)
+            setMovieData(resposta.data)
+            setSessions(resposta.data.days)
         })
 
-        promisse.catch((resposta)=>{console.log(resposta.status)})
+        promisse.catch((resposta)=>{console.log(resposta.response.data)})
     }, [])
 
     return (
         <PageContainer>
             Selecione o horário
             <div>
-                {sessoes.map((s)=>
+                {sessions.map((s)=>
                     <SessionContainer>
                         {s.weekday} - {s.date}
-                        <ButtonsContainer>
-                            <button onClick={chosenHour} value={"14:00"} id={"01"}>14:00</button>
-                            <button onClick={chosenHour} value={"15:00"} id={"02"}>15:00</button>
-                        </ButtonsContainer>
+                        <SessionHour hours={s.showtimes} setIdSession={setIdSession}/>
                     </SessionContainer> 
                 )}
             </div>
 
             <FooterContainer>
                 <div>
-                    <img src={poster} alt={title} />
+                    <img src={movieData.posterURL} alt={movieData.title} />
                 </div>
                 <div>
-                    <p>{title}</p>
+                    <p>{movieData.title}</p>
                 </div>
             </FooterContainer>
 
@@ -88,17 +72,6 @@ const SessionContainer = styled.div`
     font-size: 20px;
     color: #293845;
     padding: 0 20px;
-`
-const ButtonsContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    margin: 20px 0;
-    button {
-        margin-right: 20px;
-    }
-    a {
-        text-decoration: none;
-    }
 `
 const FooterContainer = styled.div`
     width: 100%;
