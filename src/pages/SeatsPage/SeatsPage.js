@@ -1,31 +1,39 @@
 import styled from "styled-components"
 import {useState , useEffect} from 'react';
-import { useParams , useNavigate } from 'react-router-dom';
+import {useParams , useNavigate} from 'react-router-dom';
 import axios from 'axios';
+import Legend from './Legend'
 
-export default function SeatsPage({selecionados, setSelecionados, chosenMovie}) {
-
-    //const [selecionados, setSelecionados]=useState([]);
-
-    //console.log("movie", chosenMovie);
-    //console.log("seat",seat)
+export default function SeatsPage({selecionados, setSelecionados, chosenMovie, dayMovie, hour}) {
 
     const params = useParams();
     const idSession = params.idSessao;
-    console.log("params", params)
+    //console.log("params", params)
     const [seats, setSeats] = useState([]);
     console.log("selecionados", selecionados)
 
+    //Dados do comprador
+    const [comprador, setComprador] = useState("");
+	const [cpf, setCpf] = useState("");
+
+		
     function fazerReserva(event){
         event.preventDefault();
-        
+        //const navigate = useNavigate()
         console.log(event);
 
-        /* const reserva = axios.post("XXXXXXXX", {
-			comprador: comprador,
-			cpf: cpf
-		});
- */
+        if(selecionados.length==0){
+            alert("Selecione um assento.")
+        }
+            
+        /* const promise = axios.post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", {
+            ids: selecionados,
+            name: comprador,
+			cpf: cpf });
+        promise.then(() => navigate("/sucesso"));
+        promise.catch(resp=>console.log(resp.response.data)); */
+        console.log("Dados a enviar", {ids: selecionados, name: comprador, cpf: cpf})
+                
     }
 
     function reserve(assento){
@@ -51,24 +59,6 @@ export default function SeatsPage({selecionados, setSelecionados, chosenMovie}) 
                 }
             } 
         }
-       /*  console.log("target", assento.target.value)    
-        const newSeat = assento.target.id;
-        console.log("newSeat", newSeat)
-        console.log("seat", seat);
-        const repetido = seat.includes(newSeat);
-        console.log(repetido);
-        if(!seat.includes(newSeat)){
-            const reserveSeat = seat.push(newSeat);
-            setSeat(reserveSeat);
-        } */
-
-        /* if(seat.includes(e.target.id)){
-
-        } ? "none" : setSeat(seat.push(e.target.id)) */
-
-       
-       // .then(resp=>useNavigate("/....."))
-
     }
 
     useEffect(()=>{
@@ -95,26 +85,15 @@ export default function SeatsPage({selecionados, setSelecionados, chosenMovie}) 
             </SeatsContainer>
 
             <CaptionContainer>
-                <CaptionItem>
-                    <CaptionCircle color={"verde"}/>
-                    Selecionado
-                </CaptionItem>
-                <CaptionItem>
-                    <CaptionCircle color={"cinza"}/>
-                    Disponível
-                </CaptionItem>
-                <CaptionItem>
-                    <CaptionCircle color={"amarelo"}/>
-                    Indisponível
-                </CaptionItem>
+                <Legend />
             </CaptionContainer>
 
             <FormContainer onSubmit={fazerReserva}>
                 <label for="comprador">Nome do Comprador:</label>
-                <input type="text" id="comprador" required placeholder="Digite seu nome..." />
+                <input type="text" id="comprador" required placeholder="Digite seu nome..." value={comprador} onChange={e => setComprador(e.target.value)} />
 
                 <label for="cpf">CPF do Comprador:</label>
-                <input type="number" id="cpf" required placeholder="Digite seu CPF..." />
+                <input type="number" id="cpf" required placeholder="Digite seu CPF..." value={cpf} onChange={e => setCpf(e.target.value)} />
 
                 <button>Reservar Assento(s)</button>
             </FormContainer>
@@ -125,7 +104,7 @@ export default function SeatsPage({selecionados, setSelecionados, chosenMovie}) 
                 </div>
                 <div>
                     <p>{chosenMovie.title}</p>
-                    <p>Sexta - 14h00</p>
+                    <p>{dayMovie} - {hour}</p>
                 </div>
             </FooterContainer>
 
@@ -175,23 +154,7 @@ const CaptionContainer = styled.div`
     justify-content: space-between;
     margin: 20px;
 `
-const CaptionCircle = styled.div`
-    border: 1px solid ${props => props.color === "verde" ? "#0E7D71" : (props.color === "cinza" ? "#C3CFD9" : "#FBE192")};
-    background-color: ${(props) => (props.color === "verde" ? "#1AAE9E" : (props.color === "cinza" ? "#7B8B99" : "#F7C52B"))};  
-    height: 25px;
-    width: 25px;
-    border-radius: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 5px 3px;
-`
-const CaptionItem = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 12px;
-`
+
 const SeatItem = styled.button`
     border:  ${(props) => props.value ? ("1px solid #7B8B99") : "1px solid #F7C52B"};       
     background-color: ${(props) => props.value ? (props.color ? "#1AAE9E" : "#C3CFD9") : "#FBE192"}; 

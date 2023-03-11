@@ -1,13 +1,14 @@
 import styled from "styled-components"
-import { Link, useParams } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 
-export default function SessionHour({hours, setIdSession}){
-    //console.log(hours)
-    
+export default function SessionHour({day, hours, setIdSession, setDayMovie, setHour}){ 
     
     function chosenHour(event){
         setIdSession(event.target.id);
+        const dayMovie = (event.target.name).replace(":","h");
+        setDayMovie(dayMovie);
+        setHour(event.target.value);
     }
 
     return(
@@ -15,7 +16,11 @@ export default function SessionHour({hours, setIdSession}){
             <ButtonsContainer>
                 {hours.map((s)=>
                     <Link to={`/assentos/${s.id}`}>
-                        <button onClick={chosenHour} id={s.id}>{s.name}</button>
+                        <button 
+                        onClick={chosenHour} 
+                        name={day} 
+                        value={s.name} 
+                        id={s.id}>{s.name}</button>
                     </Link>
                 )}
             </ButtonsContainer>

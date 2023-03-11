@@ -4,7 +4,7 @@ import axios from 'axios';
 import SessionHour from './SessionHour'
 import { useParams } from 'react-router-dom';
 
-export default function SessionsPage({setIdSession}) {
+export default function SessionsPage({setIdSession, setHour, setDayMovie}) {
     
     const params = useParams();
     const idFilm = params.idFilme;
@@ -32,7 +32,12 @@ export default function SessionsPage({setIdSession}) {
                 {sessions.map((s)=>
                     <SessionContainer>
                         {s.weekday} - {s.date}
-                        <SessionHour hours={s.showtimes} setIdSession={setIdSession}/>
+                        <SessionHour 
+                        day={s.weekday} 
+                        hours={s.showtimes} 
+                        setIdSession={setIdSession}
+                        setDayMovie={setDayMovie}
+                        setHour={setHour}/>
                     </SessionContainer> 
                 )}
             </div>

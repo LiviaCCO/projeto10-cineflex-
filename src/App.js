@@ -20,8 +20,10 @@ export default function App() {
     const [idFilme, setIdFilme] = useState(0);
     const [idSession, setIdSession] = useState(0);
     const [hour, setHour] = useState("");
+    const [dayMovie, setDayMovie] = useState("");
     const [selecionados, setSelecionados] = useState([]);
     const chosenMovie = movie[idFilme-1];
+
 
     return (
         <BrowserRouter>
@@ -36,9 +38,14 @@ export default function App() {
                     <SeatsPage 
                     selecionados={selecionados} 
                     setSelecionados={setSelecionados} 
-                    chosenMovie={chosenMovie}/>} />
+                    chosenMovie={chosenMovie}
+                    dayMovie={dayMovie}
+                    hour={hour}/>} />
                 <Route path="/sessoes/:idFilme" element={
-                    <SessionsPage setIdSession={setIdSession} setHour={setHour}/>} />
+                    <SessionsPage 
+                    setIdSession={setIdSession} 
+                    setHour={setHour}
+                    setDayMovie={setDayMovie}/>} />
                 <Route path="/sucesso" element={<SuccessPage />} />
             </Routes>
         </BrowserRouter>
