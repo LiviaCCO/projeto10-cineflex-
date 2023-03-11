@@ -8,23 +8,17 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
 export default function App() {
-    const [movie, setMovie] = useState([{id: 1 , 
-        overview: 
-        "Determined to ensure Superman ultimate sacrifice was not in vain, Bruce Wayne aligns forces with Diana Prince with plans to recruit a team of metahumans to protect the world from an approaching threat of catastrophic proportions.",
-        posterURL: 
-        "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/tnAuB8q5vv7Ax9UAEje5Xi4BXik.jpg",
-        releaseDate: 
-        "2021-03-18T00:00:00.000Z",
-        title: 
-        "Zack Snyder Justice League"}]);
+    const [movie, setMovie] = useState([]);
     const [idFilme, setIdFilme] = useState(0);
     const [idSession, setIdSession] = useState(0);
     const [hour, setHour] = useState("");
     const [dayMovie, setDayMovie] = useState("");
     const [selecionados, setSelecionados] = useState([]);
     const chosenMovie = movie[idFilme-1];
-
-
+    const [date, setDate]=useState("");
+    //Dados do comprador
+    const [comprador, setComprador] = useState("");
+    const [cpf, setCpf] = useState("");
     return (
         <BrowserRouter>
             <NavContainer>CINEFLEX</NavContainer>
@@ -40,13 +34,25 @@ export default function App() {
                     setSelecionados={setSelecionados} 
                     chosenMovie={chosenMovie}
                     dayMovie={dayMovie}
-                    hour={hour}/>} />
+                    hour={hour}
+                    comprador={comprador}
+                    setComprador={setComprador}
+                    cpf={cpf}
+                    setCpf={setCpf}/>} />
                 <Route path="/sessoes/:idFilme" element={
                     <SessionsPage 
                     setIdSession={setIdSession} 
                     setHour={setHour}
-                    setDayMovie={setDayMovie}/>} />
-                <Route path="/sucesso" element={<SuccessPage />} />
+                    setDayMovie={setDayMovie}
+                    setDate={setDate}/>} />
+                <Route path="/sucesso" element={
+                    <SuccessPage
+                    movie={movie}
+                    hour={hour} 
+                    date={date}
+                    comprador={comprador}
+                    cpf={cpf}
+                    selecionados={selecionados}/>} />
             </Routes>
         </BrowserRouter>
     )

@@ -1,6 +1,9 @@
 import styled from "styled-components"
+//import {useParams} from 'react-router-dom';
 
-export default function SuccessPage() {
+export default function SuccessPage({movie, hour, date, comprador, cpf, selecionados}) {
+
+    //const params = useParams();
 
     return (
         <PageContainer>
@@ -8,21 +11,21 @@ export default function SuccessPage() {
 
             <TextContainer>
                 <strong><p>Filme e sessão</p></strong>
-                <p>Tudo em todo lugar ao mesmo tempo</p>
-                <p>03/03/2023 - 14:00</p>
+                <p>{movie.title}</p>
+                <p>{date} - {hour}</p>
             </TextContainer>
 
             <TextContainer>
                 <strong><p>Ingressos</p></strong>
-                <p>Assento 01</p>
-                <p>Assento 02</p>
-                <p>Assento 03</p>
+                {selecionados.map((seat)=>
+                <p>Assento {seat}</p>
+                )}
             </TextContainer>
 
             <TextContainer>
                 <strong><p>Comprador</p></strong>
-                <p>Nome: Letícia Chijo</p>
-                <p>CPF: 123.456.789-10</p>
+                <p>Nome: {comprador}</p>
+                <p>CPF: {cpf}</p>
             </TextContainer>
 
             <button>Voltar para Home</button>

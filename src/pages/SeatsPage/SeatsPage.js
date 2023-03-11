@@ -4,25 +4,20 @@ import {useParams , useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import Legend from './Legend'
 
-export default function SeatsPage({selecionados, setSelecionados, chosenMovie, dayMovie, hour}) {
+export default function SeatsPage({selecionados, setSelecionados, chosenMovie, dayMovie, hour, comprador, setComprador, cpf, setCpf}) {
 
     const params = useParams();
     const idSession = params.idSessao;
     //console.log("params", params)
     const [seats, setSeats] = useState([]);
-    console.log("selecionados", selecionados)
-
-    //Dados do comprador
-    const [comprador, setComprador] = useState("");
-	const [cpf, setCpf] = useState("");
-
+    //console.log("selecionados", selecionados)
 		
     function fazerReserva(event){
         event.preventDefault();
         //const navigate = useNavigate()
         console.log(event);
 
-        if(selecionados.length==0){
+        if(selecionados.length===0){
             alert("Selecione um assento.")
         }
             
@@ -37,9 +32,10 @@ export default function SeatsPage({selecionados, setSelecionados, chosenMovie, d
     }
 
     function reserve(assento){
-        //console.log(assento.target)
+
         const available = assento.target.value;
         const assentoSelecionado=assento.target.id;
+        
         if(available==="false"){
             alert("Esse assento não está disponível");
         }
@@ -77,8 +73,8 @@ export default function SeatsPage({selecionados, setSelecionados, chosenMovie, d
                     <SeatItem 
                     value={s.isAvailable} 
                     color={selecionados.includes(s.id)} 
-                    key={s.id} 
-                    id={s.id} 
+                    key={s.id}
+                    id={s.name} 
                     onClick={(e)=> reserve(e)}>{s.name}
                     </SeatItem>            
                 )}
