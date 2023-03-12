@@ -51,8 +51,11 @@ export default function App() {
                     hour={hour} 
                     date={date}
                     comprador={comprador}
+                    setComprador={setComprador}
                     cpf={cpf}
-                    selecionados={selecionados}/>} />
+                    setCpf={setCpf}
+                    selecionados={selecionados}
+                    setSelecionados={setSelecionados}/>} />
             </Routes>
         </BrowserRouter>
     )

@@ -1,9 +1,14 @@
 import styled from "styled-components"
-//import {useParams} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 
-export default function SuccessPage({movie, hour, date, comprador, cpf, selecionados}) {
+export default function SuccessPage({movie, hour, date, comprador, setComprador, cpf, setCpf, selecionados, setSelecionados}) {
 
     //const params = useParams();
+    function finish(){
+        setComprador("");
+        setCpf("");
+        setSelecionados([]);
+    }
 
     return (
         <PageContainer>
@@ -28,7 +33,9 @@ export default function SuccessPage({movie, hour, date, comprador, cpf, selecion
                 <p>CPF: {cpf}</p>
             </TextContainer>
 
-            <button>Voltar para Home</button>
+            <Link to={`/`}>
+                <button onClick={finish}>Voltar para Home</button>
+            </Link>
         </PageContainer>
     )
 }

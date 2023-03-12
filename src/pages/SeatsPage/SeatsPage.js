@@ -1,32 +1,32 @@
 import styled from "styled-components"
 import {useState , useEffect} from 'react';
-import {useParams , useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import axios from 'axios';
 import Legend from './Legend'
 
-export default function SeatsPage({selecionados, setSelecionados, chosenMovie, dayMovie, hour, comprador, setComprador, cpf, setCpf}) {
+export default function SeatsPage({comprador, setComprador, cpf, setCpf, selecionados, setSelecionados, chosenMovie, dayMovie, hour}) {
 
     const params = useParams();
     const idSession = params.idSessao;
     //console.log("params", params)
     const [seats, setSeats] = useState([]);
     //console.log("selecionados", selecionados)
-		
+    const navigate = useNavigate();
+
     function fazerReserva(event){
         event.preventDefault();
-        //const navigate = useNavigate()
-        console.log(event);
+        const url = "https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many";
+        const body = {ids: selecionados, name: comprador, cpf: cpf};
+        
 
+      
         if(selecionados.length===0){
             alert("Selecione um assento.")
         }
             
-        /* const promise = axios.post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", {
-            ids: selecionados,
-            name: comprador,
-			cpf: cpf });
-        promise.then(() => navigate("/sucesso"));
-        promise.catch(resp=>console.log(resp.response.data)); */
+        const promise = axios.post(url, body);
+        promise.then(()=>navigate("/sucesso"));
+        promise.catch(resp=>console.log(resp.response.data));
         console.log("Dados a enviar", {ids: selecionados, name: comprador, cpf: cpf})
                 
     }
@@ -83,15 +83,16 @@ export default function SeatsPage({selecionados, setSelecionados, chosenMovie, d
             <CaptionContainer>
                 <Legend />
             </CaptionContainer>
-
+            
             <FormContainer onSubmit={fazerReserva}>
-                <label for="comprador">Nome do Comprador:</label>
+                <label htmlFor="comprador">Nome do Comprador:</label>
                 <input type="text" id="comprador" required placeholder="Digite seu nome..." value={comprador} onChange={e => setComprador(e.target.value)} />
 
-                <label for="cpf">CPF do Comprador:</label>
+                <label htmlFor="cpf">CPF do Comprador:</label>
                 <input type="number" id="cpf" required placeholder="Digite seu CPF..." value={cpf} onChange={e => setCpf(e.target.value)} />
 
-                <button>Reservar Assento(s)</button>
+                <button type="submit">Reservar Assento(s)</button>
+            
             </FormContainer>
 
             <FooterContainer >
