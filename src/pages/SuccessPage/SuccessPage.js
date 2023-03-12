@@ -14,27 +14,27 @@ export default function SuccessPage({movie, hour, date, comprador, setComprador,
         <PageContainer>
             <h1>Pedido feito <br /> com sucesso!</h1>
 
-            <TextContainer>
+            <TextContainer data-test="movie-info">
                 <strong><p>Filme e sessão</p></strong>
                 <p>{movie.title}</p>
                 <p>{date} - {hour}</p>
             </TextContainer>
 
-            <TextContainer>
+            <TextContainer data-test="seats-info" >
                 <strong><p>Ingressos</p></strong>
                 {selecionados.map((seat)=>
                 <p>Assento {seat}</p>
                 )}
             </TextContainer>
 
-            <TextContainer>
+            <TextContainer data-test="client-info">
                 <strong><p>Comprador</p></strong>
                 <p>Nome: {comprador}</p>
                 <p>CPF: {cpf}</p>
             </TextContainer>
 
             <Link to={`/`}>
-                <button onClick={finish}>Voltar para Home</button>
+                <button data-test="go-home-btn" onClick={finish}>Voltar para Home</button>
             </Link>
         </PageContainer>
     )

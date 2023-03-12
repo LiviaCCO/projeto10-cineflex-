@@ -70,7 +70,7 @@ export default function SeatsPage({comprador, setComprador, cpf, setCpf, selecio
 
             <SeatsContainer>
                 {seats.map((s)=>
-                    <SeatItem 
+                    <SeatItem data-test="seat"
                     value={s.isAvailable} 
                     color={selecionados.includes(s.id)} 
                     key={s.id}
@@ -86,16 +86,16 @@ export default function SeatsPage({comprador, setComprador, cpf, setCpf, selecio
             
             <FormContainer onSubmit={fazerReserva}>
                 <label htmlFor="comprador">Nome do Comprador:</label>
-                <input type="text" id="comprador" required placeholder="Digite seu nome..." value={comprador} onChange={e => setComprador(e.target.value)} />
+                <input data-test="client-name" type="text" id="comprador" required placeholder="Digite seu nome..." value={comprador} onChange={e => setComprador(e.target.value)} />
 
                 <label htmlFor="cpf">CPF do Comprador:</label>
-                <input type="number" id="cpf" required placeholder="Digite seu CPF..." value={cpf} onChange={e => setCpf(e.target.value)} />
+                <input data-test="client-cpf" type="number" id="cpf" required placeholder="Digite seu CPF..." value={cpf} onChange={e => setCpf(e.target.value)} />
 
-                <button type="submit">Reservar Assento(s)</button>
+                <button data-test="book-seat-btn" type="submit">Reservar Assento(s)</button>
             
             </FormContainer>
 
-            <FooterContainer >
+            <FooterContainer  data-test="footer">
                 <div>
                     <img src={chosenMovie.posterURL} alt={chosenMovie.title} />
                 </div>

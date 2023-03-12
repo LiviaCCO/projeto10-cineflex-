@@ -19,7 +19,7 @@ export default function SessionHour({day,weekDay, hours, setIdSession, setDayMov
             <ButtonsContainer>
                 {hours.map((s)=>
                     <Link to={`/assentos/${s.id}`}>
-                        <button 
+                        <button data-test="showtime"
                         onClick={chosenHour} 
                         name={weekDay}
                         day={day} 

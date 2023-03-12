@@ -30,7 +30,7 @@ export default function SessionsPage({setIdSession, setHour, setDayMovie, setDat
             Selecione o horário
             <div>
                 {sessions.map((s)=>
-                    <SessionContainer>
+                    <SessionContainer data-test="movie-day">
                         {s.weekday} - {s.date}
                         <SessionHour 
                         weekDay={s.weekday} 
@@ -44,7 +44,7 @@ export default function SessionsPage({setIdSession, setHour, setDayMovie, setDat
                 )}
             </div>
 
-            <FooterContainer>
+            <FooterContainer data-test="footer">
                 <div>
                     <img src={movieData.posterURL} alt={movieData.title} />
                 </div>
