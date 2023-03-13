@@ -4,6 +4,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import axios from 'axios';
 import Legend from './Legend'
 
+
 export default function SeatsPage({comprador, setComprador, cpf, setCpf, selecionados, setSelecionados, chosenMovie, dayMovie, hour}) {
 
     const params = useParams();
@@ -12,7 +13,6 @@ export default function SeatsPage({comprador, setComprador, cpf, setCpf, selecio
     const [seats, setSeats] = useState([]);
     const navigate = useNavigate();
 
-    const [color, setColor]=useState(false);
     const [idSelecionados, setIdSelecionados] = useState([]);
     
 
@@ -25,8 +25,6 @@ export default function SeatsPage({comprador, setComprador, cpf, setCpf, selecio
             cpf: cpf
         };
 
-        console.log(body);
-              
         if(selecionados.length===0){
             alert("Selecione um assento.")
         }
@@ -48,13 +46,15 @@ export default function SeatsPage({comprador, setComprador, cpf, setCpf, selecio
         if(available==="false"){
             alert("Esse assento não está disponível");
         }
+        
         else{
+            
             if(!selecionados.includes(assentoSelecionado)){
                 const selecionado = [...selecionados, assentoSelecionado];
                 const novoIdSelecionado = [...idSelecionados, novoSeat];
                 setSelecionados(selecionado);
                 setIdSelecionados(novoIdSelecionado);
-                setColor(true);
+                
             } 
             
             else{
@@ -67,12 +67,12 @@ export default function SeatsPage({comprador, setComprador, cpf, setCpf, selecio
 
                         setSelecionados(novoSelecionados);
                         setIdSelecionados(novoIdSelecionados);
-                        setColor(false);
+                       
                     }
                 }
             } 
         }
-    }
+    } 
 
     useEffect(()=>{
         const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSession}/seats`);
@@ -87,14 +87,13 @@ export default function SeatsPage({comprador, setComprador, cpf, setCpf, selecio
 
             <SeatsContainer>
                 {seats.map((s)=>
-                    <SeatItem data-test="seat"
-                    value={s.isAvailable} 
-                    cor={color}   
-                    /* cor={idSelecionados.includes(s.id)} */
-                    name={s.id}
-                    id={s.name} 
-                    onClick={(e)=> reserve(e)}>{s.name}
-                    </SeatItem>            
+                <SeatItem data-test="seat"
+                value={s.isAvailable} 
+                cor={selecionados.includes(s.name)}
+                name={s.id}
+                id={s.name} 
+                onClick={(e)=> reserve(e)}>{s.name}
+                </SeatItem>            
                 )}
             </SeatsContainer>
 
@@ -184,7 +183,7 @@ const SeatItem = styled.button`
     justify-content: center;
     margin: 5px 3px;
     padding:0px;
-`
+` 
 const FooterContainer = styled.div`
     width: 100%;
     height: 120px;

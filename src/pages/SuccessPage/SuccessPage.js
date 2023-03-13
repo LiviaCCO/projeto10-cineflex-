@@ -2,7 +2,7 @@ import styled from "styled-components"
 import {Link} from 'react-router-dom';
 
 export default function SuccessPage({chosenMovie, hour, date, comprador, setComprador, cpf, setCpf, selecionados, setSelecionados}) {
-    
+
     function finish(){
         setComprador("");
         setCpf("");
