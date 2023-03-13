@@ -2,15 +2,13 @@ import styled from "styled-components"
 import { Link } from "react-router-dom"
 
 
-export default function SessionHour({day,weekDay, hours, setIdSession, setDayMovie, setHour, setDate}){ 
+export default function SessionHour({day,weekDay, hours, setDayMovie, setHour, setDate}){ 
     
     function chosenHour(event){
         setDate(day);
-        /* setIdSession(event.target.id); */
         const dayMovie = (event.target.name).replace(":","h");
         setDayMovie(dayMovie);
         setHour(event.target.value);
-        
     }
 
     return(
@@ -23,6 +21,7 @@ export default function SessionHour({day,weekDay, hours, setIdSession, setDayMov
                         name={weekDay}
                         day={day} 
                         value={s.name} 
+                        key={s.id}
                         id={s.id}>{s.name}</button>
                     </Link>
                 )}

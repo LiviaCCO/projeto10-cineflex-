@@ -1,12 +1,8 @@
 import styled from "styled-components"
-import {Link, useParams} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
-export default function SuccessPage({movie, hour, date, comprador, setComprador, cpf, setCpf, selecionados, setSelecionados}) {
+export default function SuccessPage({chosenMovie, hour, date, comprador, setComprador, cpf, setCpf, selecionados, setSelecionados}) {
     
-    const params = useParams();
-    console.log("params", params)
-    //const idFilm = params.idFilme;
-
     function finish(){
         setComprador("");
         setCpf("");
@@ -19,7 +15,7 @@ export default function SuccessPage({movie, hour, date, comprador, setComprador,
 
             <TextContainer data-test="movie-info">
                 <strong><p>Filme e sessão</p></strong>
-                <p>{movie.title}</p>
+                <p>{chosenMovie.title}</p>
                 <p>{date} - {hour}</p>
             </TextContainer>
 

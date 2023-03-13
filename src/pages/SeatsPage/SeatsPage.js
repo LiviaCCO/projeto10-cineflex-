@@ -8,9 +8,8 @@ export default function SeatsPage({comprador, setComprador, cpf, setCpf, selecio
 
     const params = useParams();
     const idSession = params.idSessao;
-    //console.log("params", params)
+
     const [seats, setSeats] = useState([]);
-    //console.log("selecionados", selecionados)
     const navigate = useNavigate();
 
     const [color, setColor]=useState(false);
@@ -20,10 +19,12 @@ export default function SeatsPage({comprador, setComprador, cpf, setCpf, selecio
     function fazerReserva(event){
         event.preventDefault();
         const url = "https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many";
-        const body = {ids: idSelecionados, name: comprador, cpf: cpf};
-        
-
-      
+        const body = {
+            ids: idSelecionados, 
+            name: comprador, 
+            cpf: cpf
+        };
+              
         if(selecionados.length===0){
             alert("Selecione um assento.")
         }
@@ -32,7 +33,6 @@ export default function SeatsPage({comprador, setComprador, cpf, setCpf, selecio
             const promise = axios.post(url, body);
             promise.then(()=>navigate("/sucesso"));
             promise.catch(resp=>console.log(resp.response.data));
-            console.log("Dados a enviar", {ids: idSelecionados, name: comprador, cpf: cpf})
         }
                 
     }
@@ -59,8 +59,12 @@ export default function SeatsPage({comprador, setComprador, cpf, setCpf, selecio
                 for(let i=0; i<selecionados.length; i++){
                     if(assentoSelecionado===selecionados[i]){
                         selecionados.splice(i, 1);
+                        idSelecionados.splice(i, 1);
                         const novoSelecionados = selecionados;
+                        const novoIdSelecionados = idSelecionados;
+
                         setSelecionados(novoSelecionados);
+                        setIdSelecionados(novoIdSelecionados);
                         setColor(false);
                     }
                 }
@@ -72,7 +76,7 @@ export default function SeatsPage({comprador, setComprador, cpf, setCpf, selecio
         const promise = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSession}/seats`);
         promise.then((resposta)=>{setSeats(resposta.data.seats)})
         promise.catch((resposta)=>{console.log(resposta.response.data)})
-    },[])
+    },[idSession])
 
 
     return (
@@ -83,7 +87,8 @@ export default function SeatsPage({comprador, setComprador, cpf, setCpf, selecio
                 {seats.map((s)=>
                     <SeatItem data-test="seat"
                     value={s.isAvailable} 
-                    cor={color} 
+                    cor={color}   
+                    /* cor={idSelecionados.includes(s.id)} */
                     name={s.id}
                     id={s.name} 
                     onClick={(e)=> reserve(e)}>{s.name}

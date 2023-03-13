@@ -4,16 +4,13 @@ import axios from 'axios';
 import SessionHour from './SessionHour'
 import { useParams } from 'react-router-dom';
 
-export default function SessionsPage({setIdSession, setHour, setDayMovie, setDate}) {
+export default function SessionsPage({setHour, setDayMovie, setDate}) {
     
     const params = useParams();
-    console.log("params",params)
     const idFilm = params.idFilme;
 
     const [sessions, setSessions] = useState([]);
     const [movieData, setMovieData] = useState([]);
-
-    //console.log("sessions", sessions)
 
     useEffect(()=>{
         const promisse = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${idFilm}/showtimes`)
@@ -24,20 +21,19 @@ export default function SessionsPage({setIdSession, setHour, setDayMovie, setDat
         })
 
         promisse.catch((resposta)=>{console.log(resposta.response.data)})
-    }, [])
+    }, [idFilm])
 
     return (
         <PageContainer>
             Selecione o horário
             <div>
                 {sessions.map((s)=>
-                    <SessionContainer data-test="movie-day">
+                    <SessionContainer data-test="movie-day" key={s.id}>
                         {s.weekday} - {s.date}
                         <SessionHour 
                         weekDay={s.weekday} 
                         day={s.date}
                         hours={s.showtimes} 
-                        setIdSession={setIdSession}
                         setDayMovie={setDayMovie}
                         setHour={setHour}
                         setDate={setDate}/>

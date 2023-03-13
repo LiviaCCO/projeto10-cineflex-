@@ -10,7 +10,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 export default function App() {
     const [movie, setMovie] = useState([]);
     const [idFilme, setIdFilme] = useState(0);
-    //const [idSession, setIdSession] = useState(0);
     const [hour, setHour] = useState("");
     const [dayMovie, setDayMovie] = useState("");
     const [selecionados, setSelecionados] = useState([]);
@@ -41,13 +40,12 @@ export default function App() {
                     setCpf={setCpf}/>} />
                 <Route path="/sessoes/:idFilme" element={
                     <SessionsPage 
-                   /*  setIdSession={setIdSession}  */
                     setHour={setHour}
                     setDayMovie={setDayMovie}
                     setDate={setDate}/>} />
                 <Route path="/sucesso" element={
                     <SuccessPage
-                    movie={movie}
+                    chosenMovie={chosenMovie}
                     hour={hour} 
                     date={date}
                     comprador={comprador}
