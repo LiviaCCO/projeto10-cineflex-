@@ -24,6 +24,8 @@ export default function SeatsPage({comprador, setComprador, cpf, setCpf, selecio
             name: comprador, 
             cpf: cpf
         };
+
+        console.log(body);
               
         if(selecionados.length===0){
             alert("Selecione um assento.")
@@ -39,7 +41,7 @@ export default function SeatsPage({comprador, setComprador, cpf, setCpf, selecio
 
     function reserve(assento){
 
-        const novoSeat = assento.target.name;
+        const novoSeat = Number(assento.target.name);
         const available = assento.target.value;
         const assentoSelecionado=assento.target.id;
         
