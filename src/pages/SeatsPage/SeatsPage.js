@@ -13,10 +13,14 @@ export default function SeatsPage({comprador, setComprador, cpf, setCpf, selecio
     //console.log("selecionados", selecionados)
     const navigate = useNavigate();
 
+    const [color, setColor]=useState(false);
+    const [idSelecionados, setIdSelecionados] = useState([]);
+    
+
     function fazerReserva(event){
         event.preventDefault();
         const url = "https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many";
-        const body = {ids: selecionados, name: comprador, cpf: cpf};
+        const body = {ids: idSelecionados, name: comprador, cpf: cpf};
         
 
       
@@ -24,15 +28,18 @@ export default function SeatsPage({comprador, setComprador, cpf, setCpf, selecio
             alert("Selecione um assento.")
         }
             
-        const promise = axios.post(url, body);
-        promise.then(()=>navigate("/sucesso"));
-        promise.catch(resp=>console.log(resp.response.data));
-        console.log("Dados a enviar", {ids: selecionados, name: comprador, cpf: cpf})
+        else{
+            const promise = axios.post(url, body);
+            promise.then(()=>navigate("/sucesso"));
+            promise.catch(resp=>console.log(resp.response.data));
+            console.log("Dados a enviar", {ids: idSelecionados, name: comprador, cpf: cpf})
+        }
                 
     }
 
     function reserve(assento){
 
+        const novoSeat = assento.target.name;
         const available = assento.target.value;
         const assentoSelecionado=assento.target.id;
         
@@ -42,7 +49,10 @@ export default function SeatsPage({comprador, setComprador, cpf, setCpf, selecio
         else{
             if(!selecionados.includes(assentoSelecionado)){
                 const selecionado = [...selecionados, assentoSelecionado];
+                const novoIdSelecionado = [...idSelecionados, novoSeat];
                 setSelecionados(selecionado);
+                setIdSelecionados(novoIdSelecionado);
+                setColor(true);
             } 
             
             else{
@@ -51,6 +61,7 @@ export default function SeatsPage({comprador, setComprador, cpf, setCpf, selecio
                         selecionados.splice(i, 1);
                         const novoSelecionados = selecionados;
                         setSelecionados(novoSelecionados);
+                        setColor(false);
                     }
                 }
             } 
@@ -72,8 +83,8 @@ export default function SeatsPage({comprador, setComprador, cpf, setCpf, selecio
                 {seats.map((s)=>
                     <SeatItem data-test="seat"
                     value={s.isAvailable} 
-                    color={selecionados.includes(s.id)} 
-                    key={s.id}
+                    cor={color} 
+                    name={s.id}
                     id={s.name} 
                     onClick={(e)=> reserve(e)}>{s.name}
                     </SeatItem>            
@@ -95,7 +106,7 @@ export default function SeatsPage({comprador, setComprador, cpf, setCpf, selecio
             
             </FormContainer>
 
-            <FooterContainer  data-test="footer">
+            <FooterContainer data-test="footer">
                 <div>
                     <img src={chosenMovie.posterURL} alt={chosenMovie.title} />
                 </div>
@@ -154,7 +165,7 @@ const CaptionContainer = styled.div`
 
 const SeatItem = styled.button`
     border:  ${(props) => props.value ? ("1px solid #7B8B99") : "1px solid #F7C52B"};       
-    background-color: ${(props) => props.value ? (props.color ? "#1AAE9E" : "#C3CFD9") : "#FBE192"}; 
+    background-color: ${(props) => props.value ? (props.cor ? "#1AAE9E" : "#C3CFD9") : "#FBE192"};
     color: #000000;
     height: 26px;
     width: 26px;

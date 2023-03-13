@@ -14,10 +14,9 @@ export default function HomePage({movie, setMovie, setIdFilme}) {
         const promise = axios.get('https://mock-api.driven.com.br/api/v8/cineflex/movies');
         promise.then(resposta => {
             setMovie(resposta.data);
-            console.log(resposta.data)
         })
         promise.catch(resposta => {
-            console.log(resposta.status);
+            console.log(resposta.response.data);
         })
     }, [])
 
@@ -30,7 +29,7 @@ export default function HomePage({movie, setMovie, setIdFilme}) {
                 {movie.map((m)=>
                     <Link to={`/sessoes/${m.id}`}>
                         <MovieContainer  data-test="movie">
-                            <img onClick={(e)=>chooseMovie(e)} alt={m.title} src={m.posterURL} id={m.id}/>
+                            <img onClick={(e)=>chooseMovie(e)} alt={m.title} src={m.posterURL} key={m.id} id={m.id}/>
                         </MovieContainer>
                     </Link>
                 )}

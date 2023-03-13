@@ -2,12 +2,15 @@ import styled from "styled-components"
 import {Link, useParams} from 'react-router-dom';
 
 export default function SuccessPage({movie, hour, date, comprador, setComprador, cpf, setCpf, selecionados, setSelecionados}) {
+    
+    const params = useParams();
+    console.log("params", params)
+    //const idFilm = params.idFilme;
 
-    //const params = useParams();
     function finish(){
         setComprador("");
         setCpf("");
-        setSelecionados([]);
+        setSelecionados([]); 
     }
 
     return (
@@ -31,7 +34,7 @@ export default function SuccessPage({movie, hour, date, comprador, setComprador,
                 <strong><p>Comprador</p></strong>
                 <p>Nome: {comprador}</p>
                 <p>CPF: {cpf}</p>
-            </TextContainer>
+            </TextContainer> 
 
             <Link to={`/`}>
                 <button data-test="go-home-btn" onClick={finish}>Voltar para Home</button>

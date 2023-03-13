@@ -6,8 +6,7 @@ export default function SessionHour({day,weekDay, hours, setIdSession, setDayMov
     
     function chosenHour(event){
         setDate(day);
-        console.log(day, weekDay)
-        setIdSession(event.target.id);
+        /* setIdSession(event.target.id); */
         const dayMovie = (event.target.name).replace(":","h");
         setDayMovie(dayMovie);
         setHour(event.target.value);

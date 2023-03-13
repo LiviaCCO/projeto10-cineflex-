@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 export default function SessionsPage({setIdSession, setHour, setDayMovie, setDate}) {
     
     const params = useParams();
+    console.log("params",params)
     const idFilm = params.idFilme;
 
     const [sessions, setSessions] = useState([]);
